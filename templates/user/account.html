@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Аккаунт: {{ user.first_name }}
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-center display-4"> Основна інформація:</h2>
+    <div class="user-info nav-tabs">
+        <h2>Імʼя: </h2>
+        <p class="description">{{ user.first_name }}</p>
+    </div>
+    {% if user.last_name %}
+        <div class="user-info nav-tabs">
+            <h2>Фамілія: </h2>
+            <p class="description">{{ user.last_name }}</p>
+        </div>
+    {% endif %}
+    <div class="user-info nav-tabs">
+        <h2>День народження: </h2>
+        <p class="description">{{ user.birthday }}</p>
+    </div>
+    <div class="user-info nav-tabs">
+        <h2>Пошта: </h2>
+        <p class="description">{{ user.email }}</p>
+    </div>
+
+    <div class="user-info nav-tabs">
+        <h2>Телефон: </h2>
+        <p class="description">{{ user.number }}</p>
+    </div>
+    <div class="user-info nav-tabs">
+        <h2>Картка: </h2>
+        <p class="description">{{ user.card }}</p>
+    </div>
+    <div class="user-info nav-tabs">
+        <h2>Білети: </h2>
+        {% if tickets %}
+            <ul>
+                {% for ticket in tickets %}
+                    <li class="ticket">
+                        {{ ticket.movie_session.movie.title }} -
+                        ряд: {{ ticket.row }}, місце: {{ ticket.seat }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="description">Користувач не має куплених білетів.</p>
+        {% endif %}
+    </div>
+    <div class="user-info promotional">
+        <h2>Бонуси: </h2>
+        <h3 class="description">{{ user.promotional_money }}</h3>
+    </div>
+    <div class="btn inline">
+        <a href="{% url "user:update" pk=user.id %}">Змінити аканут</a>
+    </div>
+    <div class="btn inline">
+        <a href="{% url "user:delete" pk=user.id %}">Видалити Акаунт</a>
+    </div>
+{% endblock %}

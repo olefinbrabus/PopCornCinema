@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="heading">
+        <h2 class="heading-title">Каталог Фільмів</h2>
+    </div>
+    <form action="" method="get" class="form-inline">
+        {{ search_form.as_p }}
+        <input type="submit" value="Пошук" class="btn-secondary btn">
+    </form>
+
+    <div class="movies-content">
+        {% for movie in movie_list %}
+            <div class="movie-box">
+                <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="movie-box-img">
+                <div class="box-text">
+                    <a href="{% url "cinema:movies-detail" movie.id %}">
+                        Фільм: {{ movie }}, жанри:
+                        {% for genre in movie.genres.all %}
+                            <span class="movie-type">{{ genre }}</span>
+                        {% endfor %}
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <ul class="pagination nav">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">
+                        Попередня Сторінка
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item active"><span
+                    class="page-link">{{ page_obj.number }} of {{ paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+                        Наступна сторінка
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

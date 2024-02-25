@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Увійти до аккаунту:</h2>
+    
+    {% if errors %}
+        <p style="color: #9d0000">Виникла помилка.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        
+        <label class="label-log">
+            <input type="text" name="username">
+        </label>
+        <label class="label-log">
+            <input type="password" name="password">
+        </label>
+        <br>
+        <input type="submit" value="Увійти">
+    </form>
+    
+{% endblock %}

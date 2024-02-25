@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>Видалення акаунту</h2>
+    
+    <p>Ви згодні, що ваш акаунт, буде назавжди видалено без права на відновлення?</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Так, я згоден" class="btn btn-danger">
+    </form>
+{% endblock %}
