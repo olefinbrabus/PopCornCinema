@@ -38,7 +38,6 @@
           let row = $(this).data("row")
           let seat = $(this).data("seat")
           let token = getCookie("csrftoken")
-          console.log(token)
           $.ajax({
               type: "POST",
               url: '{% url "cart:cart_add" %}',
@@ -51,7 +50,8 @@
               },
               
               success: function (json) {
-                  console.log(json)
+                  document.getElementById("cart-quantity").
+                      textContent = json.qty
               },
               
               error: function (xhr, errmsg, err){

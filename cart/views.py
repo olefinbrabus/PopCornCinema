@@ -32,7 +32,9 @@ def cart_add(request):
 
         cart.add(ticket)
 
-        response = JsonResponse({"Ticket Film": ticket.movie_session_id})
+        cart_quantity = cart.__len__()
+
+        response = JsonResponse({"qty": cart_quantity})
         return response
 
 

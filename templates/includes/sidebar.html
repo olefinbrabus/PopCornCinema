@@ -44,7 +44,10 @@
       
       <a href="#" class="nav-link" data-toggle="modal" data-target="#exampleModal">
         <i class='bx bxs-cart'></i>
-        <span class="nav-link-title">Кошик</span>
+        <div style="display: flex; align-items: center">
+          <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
+          <span class="nav-link-title " id="cart-quantity">{{ cart|length }}</span>
+        </div>
       </a>
 
       
