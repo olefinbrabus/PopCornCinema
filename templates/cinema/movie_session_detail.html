@@ -1,31 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% load ticket_filters %}
+  {% load ticket_filters %}
 
-    <h2>Оберіть місце для сеансу на фільм: {{ movie_session.movie.title }}</h2>
-    <h2>{{ movie_session.show_time }}</h2>
-    <form method="post" action="">
-        {% csrf_token %}
-        <ul class="seat-list">
-            {{ available_seats }}
-            {% for row in rows_range %}
-                <li class="seat-row">Ряд {{ row }}:
-                    {% for seat in seats_range %}
-                        {% for ticket in tickets %}
-                            {% if ticket.seat == seat and ticket.row == row %}
-                            	<div class="seat-button btn nav-active ">
-                                Місто зайнято
-                            </div>
-                            {% else %}
-                            <button type="submit" name="row" value="{{ row }}" class="seat-button btn nav-active " id="add-cart">
-                                Місто: {{ seat }}
-                            </button>
-                            {% endif %} 
-                        {% endfor %}
-                    {% endfor %}
-                </li>
-            {% endfor %}
-        </ul>
-    </form>
+  <h2>Оберіть місце для сеансу на фільм: {{ movie_session.movie.title }}</h2>
+  <h2>{{ movie_session.cinema_hall }} ,{{ movie_session.show_time }}</h2>
+  
+  <ul class="seat-list">
+    {{ available_seats }}
+
+    {% for row in rows_range %}
+
+      <li class="seat-row">Ряд {{ row }}:
+
+        {% for seat in seats_range %}
+          {% for ticket in tickets %}
+            {% if ticket.seat == seat and ticket.row == row %}
+              <div class="seat-button btn nav-active ">
+                Місто зайнято
+              </div>
+            {% else %}
+              <button type="button" class="seat-button btn nav-active"
+                      data-id="{{ movie_session.id }}" data-row="{{ row }}" data-seat="{{ seat }}" id="add-cart">
+                Місто: {{ seat }}
+              </button>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+      $(document).on("click", "#add-cart", function (e) {
+          e.preventDefault()
+          let session_id = $(this).data("id")
+          let row = $(this).data("row")
+          let seat = $(this).data("seat")
+          let token = getCookie("csrftoken")
+          console.log(token)
+          $.ajax({
+              type: "POST",
+              url: '{% url "cart:cart_add" %}',
+              data: {
+                  session_id: session_id,
+                  csrfmiddlewaretoken: token,
+                  row: row,
+                  seat: seat,
+                  action: "post"
+              },
+              
+              success: function (json) {
+                  console.log(json)
+              },
+              
+              error: function (xhr, errmsg, err){
+                  console.log(err)
+              }
+              
+          })
+      })
+  </script>
+  
 {% endblock %}

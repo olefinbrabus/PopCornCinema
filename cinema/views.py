@@ -54,7 +54,6 @@ class MoviesListView(generic.ListView):
         return queryset.filter(**conditions)
 
 
-
 class MoviesDetailView(generic.DetailView):
     template_name = "cinema/movie_detail.html"
     model = Movie
@@ -78,6 +77,9 @@ class MovieSessionDetailView(generic.DetailView):
         seats_range = range(1, cinema_hall.seats_in_row + 1)
 
         tickets = movie_session.tickets.all()
+        if len(tickets) == 0:
+            tickets = [0]
+
         occupied_seats = Ticket.objects.filter(movie_session=movie_session).values_list('row', 'seat')
 
         context['movie_session'] = movie_session

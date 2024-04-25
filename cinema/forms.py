@@ -1,11 +1,6 @@
 from django import forms
 
 from cinema.models import Genre, Ticket
-from user.models import User
-from django.contrib.auth.forms import UserCreationForm
-
-
-
 
 
 class MoviesSearchForm(forms.Form):

@@ -66,6 +66,7 @@ class MovieSession(models.Model):
     show_time = models.DateTimeField()
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     cinema_hall = models.ForeignKey(CinemaHall, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     class Meta:
         ordering = ["-show_time"]
@@ -87,19 +88,6 @@ class Order(models.Model):
         ordering = ["-created_at"]
 
 
-# class MarketItem(models.Model):
-#     name = models.CharField(max_length=255)
-#     price = models.DecimalField(max_digits=6, decimal_places=2)
-#     quantity = models.IntegerField(default=0)
-#     image = models.ImageField(null=True, upload_to=movie_image_file_path)
-#
-#
-# class OrderedItem(models.Model):
-#     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="ordered_items")
-#     market_item = models.ForeignKey(MarketItem, on_delete=models.CASCADE)
-#     quantity = models.IntegerField(default=1)
-
-
 class Ticket(models.Model):
     movie_session = models.ForeignKey(
         MovieSession, on_delete=models.CASCADE, related_name="tickets"
@@ -109,7 +97,6 @@ class Ticket(models.Model):
     )
     row = models.IntegerField()
     seat = models.IntegerField()
-
 
     @staticmethod
     def validate_ticket(row, seat, cinema_hall, error_to_raise):
@@ -122,9 +109,9 @@ class Ticket(models.Model):
                 raise error_to_raise(
                     {
                         ticket_attr_name: f"{ticket_attr_name} "
-                        f"number must be in available range: "
-                        f"(1, {cinema_hall_attr_name}): "
-                        f"(1, {count_attrs})"
+                                          f"number must be in available range: "
+                                          f"(1, {cinema_hall_attr_name}): "
+                                          f"(1, {count_attrs})"
                     }
                 )
 
@@ -137,17 +124,15 @@ class Ticket(models.Model):
         )
 
     def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-        ):
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None,
+    ):
         try:
-            self.full_clean()  # вызовет validate_ticket
+            self.full_clean()
         except ValidationError as e:
-            # Обработка ошибок валидации
-            # Например, можно вывести сообщение об ошибке или бросить исключение с пользовательским сообщением.
             raise ValidationError({"non_field_errors": e.message_dict})
 
         return super(Ticket, self).save(
@@ -162,4 +147,3 @@ class Ticket(models.Model):
     class Meta:
         unique_together = ("movie_session", "row", "seat")
         ordering = ["row", "seat"]
-
