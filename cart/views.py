@@ -1,11 +1,12 @@
 import uuid
+from typing import Union, NoReturn
 
 from django.shortcuts import get_object_or_404
 from django.views import generic
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 from .cart import Cart
-from cinema.models import MovieSession, Ticket
+from cinema.models import MovieSession
 from .models import TicketTemp
 
 
@@ -15,8 +16,22 @@ from .models import TicketTemp
 class CartView(generic.TemplateView):
     template_name = "cart/cart_view.html"
 
+    def get_context_data(self, **kwargs) -> dict:
+        context = super().get_context_data(**kwargs)
 
-def cart_add(request):
+        cart = Cart(self.request)
+
+        cart_tickets = cart.get_tickets()
+        context["cart_tickets"] = cart_tickets
+
+        sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in cart_tickets}
+        sessions = MovieSession.objects.filter(id__in=sessions_id)
+        context["sessions"] = sessions
+
+        return context
+
+
+def cart_add(request) -> Union[HttpResponse, JsonResponse, NoReturn]:
     cart = Cart(request)
 
     if request.POST.get('action') == "post":
