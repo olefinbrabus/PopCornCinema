@@ -3,7 +3,6 @@ from django.db import models
 from cinema.models import MovieSession
 
 
-# temp model for cart
 class TicketTemp(models.Model):
     temp_id = models.CharField(max_length=32, unique=True)
     movie_session_id: int = models.IntegerField()
@@ -21,4 +20,6 @@ class TicketTemp(models.Model):
         return NotImplemented
 
     def __str__(self):
-        return f'session: {self.movie_session_id} row: {self.row} seat: {self.seat}'
+        return (f'session: {self.movie_session_id!r} '
+                f'row: {self.row!r} seat: {self.seat!r} '
+                )

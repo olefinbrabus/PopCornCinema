@@ -1,17 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% for session in sessions %}
-    <p>{{ session.movie.title}}</p>
-    {% for cart_ticket in cart_tickets %}
-      {% if cart_ticket.movie_session_id == session.id %}
-        <p>
-          session: {{ cart_ticket.movie_session_id }}
-          row: {{ cart_ticket.row }}
-          seat: {{ cart_ticket.seat }}
-        </p>
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
-
+  {% if cart_tickets %}
+    <div class="row">
+      <div class="col-8">
+        {% for session in sessions %}
+          <h2>{{ session.movie.title }}</h2>
+          <h3>{{ session.show_time }}</h3>
+          <h3>Ціна: {{ session.price }}</h3>
+          {% for cart_ticket in cart_tickets %}
+            {% if cart_ticket.movie_session_id == session.id %}
+              <div class="row ticket-row">
+                <div class="col-sm">Сесія: {{ cart_ticket.movie_session_id }}</div>
+                <div class="col-sm">Ряд: {{ cart_ticket.row }}</div>
+                <div class="col-sm">Місце: {{ cart_ticket.seat }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <div class="col-4">
+        <div class="cart-buy">
+          {{ tickets_price }}
+          <button type="submit" value="">Купити квиток</button>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <h2 class="empty-cart">У вас немає білетів у кошику</h2>
+  {% endif %}
 {% endblock %}

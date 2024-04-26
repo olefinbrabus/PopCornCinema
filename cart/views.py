@@ -26,16 +26,32 @@ class CartView(generic.TemplateView):
 
         sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in cart_tickets}
         sessions = MovieSession.objects.filter(id__in=sessions_id)
+
+        for session in sessions:
+            session.show_time = (
+                session.show_time.strftime("%m/%d/%Y, \nГодина: %H Хвилина: %M"))
         context["sessions"] = sessions
 
+        context["tickets_price"] = get_price(sessions, cart_tickets)
+
         return context
+
+
+def get_price(sessions: list[MovieSession], tickets: list[TicketTemp]) -> float:
+    tickets_price: float = 0
+
+    for session in sessions:
+        for ticket in tickets:
+            if session.id == ticket.movie_session_id:
+                tickets_price += session.price
+
+    return tickets_price
 
 
 def cart_add(request) -> Union[HttpResponse, JsonResponse, NoReturn]:
     cart = Cart(request)
 
     if request.POST.get('action') == "post":
-
         session_id = int(request.POST.get('session_id'))
         row = int(request.POST.get('row'))
         seat = int(request.POST.get('seat'))
@@ -46,8 +62,7 @@ def cart_add(request) -> Union[HttpResponse, JsonResponse, NoReturn]:
         ticket = TicketTemp(temp_id=temp_id, movie_session_id=session.id, row=row, seat=seat)
 
         cart.add(ticket)
-
-        cart_quantity = cart.__len__()
+        cart_quantity = len(cart)
 
         response = JsonResponse({"qty": cart_quantity})
         return response
@@ -59,4 +74,3 @@ def cart_delete(request):
 
 def cart_update(request):
     pass
-
