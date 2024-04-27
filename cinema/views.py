@@ -1,4 +1,3 @@
-
 from django.views import generic
 
 from cinema.forms import *
@@ -65,6 +64,8 @@ class CinemaView(generic.ListView):
 
 
 class MovieSessionDetailView(generic.DetailView):
+    # TODO: створити показ обраних квитків
+    # TODO: створити відміну квитків при натисненні на обрані квитки
     template_name = 'cinema/movie_session_detail.html'
     model = MovieSession
 

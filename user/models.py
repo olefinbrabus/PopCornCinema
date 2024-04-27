@@ -2,8 +2,8 @@ from datetime import date
 
 from django.contrib.auth.models import (
     AbstractUser,
-    BaseUserManager,
-)
+    BaseUserManager)
+
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -55,5 +55,3 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-
-

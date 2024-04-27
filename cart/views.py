@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import Union, NoReturn
 
 from django.shortcuts import get_object_or_404
@@ -28,13 +29,30 @@ class CartView(generic.TemplateView):
         sessions = MovieSession.objects.filter(id__in=sessions_id)
 
         for session in sessions:
-            session.show_time = (
-                session.show_time.strftime("%m/%d/%Y, \nГодина: %H Хвилина: %M"))
+            session.show_time = string_film_time(session)
         context["sessions"] = sessions
 
         context["tickets_price"] = get_price(sessions, cart_tickets)
 
         return context
+
+
+def string_film_time(session: MovieSession) -> str:
+    str_time = ""
+    session_time: datetime = session.show_time
+
+    if session_time.year != datetime.now().year:
+        str_time += session_time.strftime("Рік: %y, ")
+
+    str_time += session_time.strftime(" %d ")
+
+    months = ["січня", "лютого", "березня", "квітня", "травня", "червня",
+              "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"]
+    str_time += months[session_time.month - 1]
+
+    str_time += session_time.strftime(" %H:%S")
+
+    return str_time
 
 
 def get_price(sessions: list[MovieSession], tickets: list[TicketTemp]) -> float:

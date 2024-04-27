@@ -483,6 +483,7 @@ footer {
 .cart-buy{
     align-items: center;
     background: var(--container-color);
+    position: fixed;
 
 }
 

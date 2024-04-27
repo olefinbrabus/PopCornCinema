@@ -1,8 +1,4 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-
 from django.views import generic
 
 from cinema.models import Ticket
@@ -10,7 +6,10 @@ from user.forms import UserForm
 from user.models import User
 
 
-class UserDetailView(LoginRequiredMixin,generic.DetailView):
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    # TODO: За запитанням користувача Створювати список білетів для сессії у форматі
+    #  PDF з підтримкою QR або Штрих коду щоб користувач зміг показати на касі білети
+
     model = User
     template_name = 'user/account.html'
     context_object_name = 'user'
@@ -31,12 +30,12 @@ class UserCreateView(generic.CreateView):
 
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
-    fields = ['first_name', 'last_name', "birthday", "number", 'email','card']
+    fields = ['first_name', 'last_name', "birthday", "number", 'email', 'card']
     success_url = ".."
     template_name = "user/update.html"
 
 
 class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = User
-    fields = ['first_name', 'last_name', "birthday", "number", 'email','card']
+    fields = ['first_name', 'last_name', "birthday", "number", 'email', 'card']
     template_name = "user/delete_confim.html"
