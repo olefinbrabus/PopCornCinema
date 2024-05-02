@@ -66,6 +66,7 @@ class CinemaView(generic.ListView):
 class MovieSessionDetailView(generic.DetailView):
     # TODO: створити показ обраних квитків
     # TODO: створити відміну квитків при натисненні на обрані квитки
+    # TODO: створити відображення екрану щоб показати точніше як росташованні ряди та місця
     template_name = 'cinema/movie_session_detail.html'
     model = MovieSession
 
@@ -90,4 +91,3 @@ class MovieSessionDetailView(generic.DetailView):
         context['occupied_seats'] = occupied_seats
 
         return context
-

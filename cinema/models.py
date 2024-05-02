@@ -1,5 +1,6 @@
 import os
 import uuid
+from datetime import datetime
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -70,6 +71,24 @@ class MovieSession(models.Model):
 
     class Meta:
         ordering = ["-show_time"]
+
+    @property
+    def string_film_time(self) -> str:
+        str_time = ""
+        session_time: datetime = self.show_time
+
+        if session_time.year != datetime.now().year:
+            str_time += session_time.strftime("Рік: %y, ")
+
+        str_time += session_time.strftime(" %d ")
+
+        months = ["січня", "лютого", "березня", "квітня", "травня", "червня",
+                  "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"]
+        str_time += months[session_time.month - 1]
+
+        str_time += session_time.strftime(" %H:%S")
+
+        return str_time
 
     def __str__(self):
         return self.movie.title + " " + str(self.show_time)

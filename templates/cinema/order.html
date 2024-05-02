@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Выберите сеанс и места для заказа</h2>
 
   <form method="post" action="{% url 'order' %}">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit">Оформить заказ</button>
+    <button type="submit">Оформити заказ</button>
   </form>
 {% endblock %}

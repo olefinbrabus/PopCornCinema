@@ -1,5 +1,3 @@
-from typing import NoReturn
-
 from .models import TicketTemp
 
 
@@ -15,7 +13,7 @@ class Cart:
 
         self.cart = cart
 
-    def add(self, ticket: TicketTemp) -> NoReturn:
+    def add(self, ticket: TicketTemp) -> None:
         ticket_id = str(ticket.temp_id)
         if not self._is_contains_in_cart(ticket):
             self.cart[ticket_id] = {"movie_session_id": str(ticket.movie_session_id),
@@ -37,6 +35,16 @@ class Cart:
                            seat=int(value["seat"]))
                 for temp_id, value in self.cart.items()
                 ]
+
+    def delete(self, ticket_id: str) -> None:
+        if ticket_id in self.cart:
+            del self.cart[ticket_id]
+            print("true")
+        else:
+            print("false")
+        print(ticket_id)
+
+        self.session.modified = True
 
     def __len__(self) -> int:
         return len(self.cart)

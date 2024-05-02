@@ -1,57 +1,56 @@
 {% load static %}
 <header>
   <div class="nav container">
-    <a href="{% url "index" %}" class="logo">
+    <div class="nav-head">
+      <a href="{% url "index" %}" class="logo">
 
-      PopCorn <span>Cinema</span>
-    </a>
-    <form action="{% url "cinema:movies-list" %}" method="get">
-      <div class=" log_margin">
-        <form action="{% url "cinema:movies-list" %}" method="get" class="form-inline">
-          {{ search_form.title }}
-          <input type="submit" value="Пошук" class="btn-secondary btn">
-        </form>
-      </div>
-    </form>
-
-    {% if user.is_authenticated %}
-      <a href="{% url 'user:user-account-detail' pk=user.id %}"
-         class="log_margin nav-text">{{ user.first_name }}</a>
-
-      <a href="{% url 'logout' %}" class="log_margin nav-text">Вийти з акаунту</a>
-    {% else %}
-      <a href="{% url "login" %}" class="log_margin nav-text"> Увійти в аккаунт</a>
-      <a href="{% url "user:register" %}" class="log_margin nav-text">Зареєструватися</a>
-
-
-    {% endif %}
-
-    <div class="navbar">
-      <a href="{% url "index" %}" class="nav-link">
-        <i class='bx bx-home-alt'></i>
-        <span class="nav-link-title">Головна</span>
+        PopCorn <span>Cinema</span>
       </a>
-
-      <a href="#" class="nav-link">
-        <i class='bx bx-compass'></i>
-        <span class="nav-link-title">Кінотеатри</span>
-      </a>
-      <a href="{% url "cinema:movies-list" %}" class="nav-link">
-        <i class='bx bx-camera-movie'></i>
-        <span class="nav-link-title">Навігація</span>
-      </a>
-      
-      
-      <a href="#" class="nav-link" data-toggle="modal" data-target="#exampleModal">
-        <i class='bx bxs-cart'></i>
-        <div style="display: flex; align-items: center">
-          <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
-          <span class="nav-link-title " id="cart-quantity">{{ cart|length }}</span>
+      <form action="{% url "cinema:movies-list" %}" method="get">
+        <div class=" log_margin">
+          <form action="{% url "cinema:movies-list" %}" method="get" class="form-inline">
+            {{ search_form.title }}
+            <input type="submit" value="Пошук" class="btn-secondary btn">
+          </form>
         </div>
-      </a>
+      </form>
 
-      
-      
+      {% if user.is_authenticated %}
+        <a href="{% url 'user:user-account-detail' pk=user.id %}"
+           class="log_margin nav-text">{{ user.first_name }}</a>
+
+        <a href="{% url 'logout' %}" class="log_margin nav-text">Вийти з акаунту</a>
+      {% else %}
+        <a href="{% url "login" %}" class="log_margin nav-text"> Увійти в аккаунт</a>
+        <a href="{% url "user:register" %}" class="log_margin nav-text">Зареєструватися</a>
+
+      {% endif %}
+    </div>
+    <div class="nav-buttons">
+      <div class="navbar">
+        <a href="{% url "index" %}" class="nav-link">
+          <i class='bx bx-home-alt'></i>
+          <span class="nav-link-title">Головна</span>
+        </a>
+
+        <a href="#" class="nav-link">
+          <i class='bx bx-compass'></i>
+          <span class="nav-link-title">Кінотеатри</span>
+        </a>
+        <a href="{% url "cinema:movies-list" %}" class="nav-link">
+          <i class='bx bx-camera-movie'></i>
+          <span class="nav-link-title">Навігація</span>
+        </a>
+
+        <a href="#" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+          <i class='bx bxs-cart'></i>
+          <div style="display: flex; align-items: center">
+            <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
+            <span class="nav-link-title " id="cart-quantity">{{ cart|length }}</span>
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
 </header>
