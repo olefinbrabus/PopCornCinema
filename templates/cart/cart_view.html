@@ -3,10 +3,10 @@
 {% block content %}
   {% if cart_tickets %}
     <div class="row">
-      <div class="col-8">
+      <div class="col-7">
         {% for session in sessions %}
           <h2>Фільм: {{ session.movie.title }}, Час: {{ session.movie.duration }} Години</h2>
-          <h3>Дата: {{ session.show_time }}</h3>
+          <h3>Дата: {{ session.string_film_time }}</h3>
           <h3>Ціна: {{ session.price }}</h3>
           {% for cart_ticket in cart_tickets %}
             {% if cart_ticket.movie_session_id == session.id %}
@@ -14,18 +14,53 @@
                 <div class="col-sm">Сесія: {{ cart_ticket.movie_session_id }}</div>
                 <div class="col-sm">Ряд: {{ cart_ticket.row }}</div>
                 <div class="col-sm">Місце: {{ cart_ticket.seat }}</div>
+                <button type="button" data-index="{{ cart_ticket.temp_id }}"
+                        class="col-sm btn btn-danger delete-ticket">
+                  видалити білет
+                </button>
               </div>
             {% endif %}
           {% endfor %}
         {% endfor %}
       </div>
-      <div class="col-4">
+      <div class="col-5" id="cart-confirm">
         <div class="cart-buy">
-          {{ tickets_price }}
-          <button type="submit" value="">Купити квиток</button>
+          <h2>Ціна до сплати: {{ tickets_summary_price }}</h2>
+          {% for price in tickets_price_sessions %}
+            <p>{{ price }}</p>
+          {% endfor %}
+          <button type="submit" class="cart-buy btn btn-primary" value="">Купити квитки</button>
         </div>
       </div>
     </div>
+
+    <script>
+        $(document).on("click", ".delete-ticket", function (e) {
+            e.preventDefault()
+            let ticket_id = $(this).data("index")
+            let token = getCookie("csrftoken")
+            $.ajax({
+                type: "POST",
+                url: '{% url "cart:cart_delete" %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    ticket_id: ticket_id,
+                    action: "post"
+                },
+                success: function (json) {
+                    document.getElementById("cart-quantity").textContent = json.qty
+
+                    location.reload()
+                },
+
+                error: function (xhr, errmsg, err) {
+                    console.log(err)
+                }
+
+            })
+        })
+    </script>
+
   {% else %}
     <h2 class="empty-cart">У вас немає білетів у кошику</h2>
   {% endif %}

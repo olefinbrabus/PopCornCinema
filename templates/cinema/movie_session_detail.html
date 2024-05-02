@@ -4,7 +4,7 @@
   {% load ticket_filters %}
 
   <h2>Оберіть місце для сеансу на фільм: {{ movie_session.movie.title }}</h2>
-  <h2>{{ movie_session.cinema_hall }} ,{{ movie_session.show_time }}</h2>
+  <h2>{{ movie_session.cinema_hall }} ,{{ movie_session.string_film_time }}</h2>
   
   <ul class="seat-list">
     {{ available_seats }}

@@ -34,7 +34,7 @@
             <ul>
                 {% for session in movie.moviesession_set.all %}
                     <li  class="nav-tabs">
-                        {{ session.show_time }}
+                        {{ session.string_film_time }}
                         <a href="{% url 'cinema:movie_session_order' pk=session.pk %}">
                             <input type="button"  value="Замовити квитки">
                         </a>

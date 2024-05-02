@@ -24,7 +24,7 @@ class UserAdmin(DjangoUserAdmin):
                 )
             },
         ),
-        (_("Promotional money"),{"fields": ("promotional_money",)}),
+        (_("Promotional money"), {"fields": ("promotional_money",)}),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (

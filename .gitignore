@@ -1,6 +1,3 @@
 .env
-._cart
-._db.sqlite3
-._requirements.txt
 db.sqlite3
 **/__pycache__
