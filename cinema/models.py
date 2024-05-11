@@ -82,8 +82,8 @@ class MovieSession(models.Model):
 
         str_time += session_time.strftime(" %d ")
 
-        months = ["січня", "лютого", "березня", "квітня", "травня", "червня",
-                  "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"]
+        months = ("січня", "лютого", "березня", "квітня", "травня", "червня",
+                  "липня", "серпня", "вересня", "жовтня", "листопада", "грудня")
         str_time += months[session_time.month - 1]
 
         str_time += session_time.strftime(" %H:%S")

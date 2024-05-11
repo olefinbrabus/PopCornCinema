@@ -11,9 +11,7 @@ class MoviesSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Пошук фільма",
-
             },
-
         )
     )
     genre = forms.ModelChoiceField(

@@ -99,12 +99,11 @@ header {
 
 }
 
-.nav-head{
+.nav-head {
     display: flex;
     margin: 15px 0;
     align-items: center;
 }
-
 
 
 .logo {
@@ -333,7 +332,7 @@ header {
     right: 0.8rem;
 }
 
-.container{
+.container {
     margin-top: 10px !important;
 }
 
@@ -395,6 +394,23 @@ footer {
     margin: auto;
 }
 
+.manage-user {
+    display: grid;
+}
+
+.manage-user label {
+    display: grid;
+    place-items: center;
+}
+
+.manage-user ul{
+    text-align: center;
+}
+
+.manage-user h2{
+    text-align: center;
+}
+
 .contact-us {
     color: var(--hover-color);
     font-weight: 500;
@@ -428,6 +444,7 @@ footer {
     padding-left: 10px;
     display: inline-flex;
     align-items: center;
+    border-radius: 5px;
 }
 
 .inline {
@@ -505,7 +522,7 @@ div#cart-confirm {
     text-align: center;
 }
 
-.cart-buy h2{
+.cart-buy h2 {
     color: var(--main-color);
 }
 

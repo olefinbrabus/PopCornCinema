@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from django.contrib.auth.models import (
     AbstractUser,
@@ -55,3 +55,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    @property
+    def get_birthday_to_date(self) -> str:
+        return self.birthday.strftime("%Y-%m-%d")

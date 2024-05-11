@@ -1,13 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <form class="manage-user" action="" method="post" novalidate>
+    {% csrf_token %}
     <h2 class="contact-us">Зареєструватися:</h2>
     <br>
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <input type="submit" value="Submit">
-
-    </form>
+    <label for="first_name">
+      Імʼя
+      {{ form.first_name }}
+    </label>
+    <label for="last_name">
+      Фамілія
+      {{ form.last_name }}
+    </label>
+    <label for="birthday">
+      День народження
+      <input type="date" id="id_birthday" name="birthday" value="{{ form.birthday.value }}">
+    </label>
+    <label for="number">
+      Телефоний номер
+      {{ form.number }}
+    </label>
+    <label for="email">
+      Електонна пошта
+      {{ form.email }}
+    </label>
+    <label for="password1">
+      Пароль
+      {{ form.password1 }}
+    </label>
+    <label for="password2">
+      Підтвердити пароль
+      {{ form.password2 }}
+    </label>
+    <ul>
+      <li>Ваш пароль не повинен бути занадто схожим на іншу вашу особисту інформацію.</li>
+      <li>Ваш пароль повинен містити щонайменше 8 символів.</li>
+      <li>Ваш пароль не може бути загальновживаним.</li>
+      <li>Ваш пароль не може бути повністю цифровим.</li>
+    </ul>
+  </form>
+  
+  <input class="btn btn-primary btn-lg" type="submit" value="Submit">
 {% endblock %}
