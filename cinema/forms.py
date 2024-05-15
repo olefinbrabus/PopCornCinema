@@ -1,6 +1,6 @@
 from django import forms
 
-from cinema.models import Genre, Ticket
+from cinema.models import Genre, Ticket, Movie
 
 
 class MoviesSearchForm(forms.Form):
@@ -11,6 +11,7 @@ class MoviesSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Пошук фільма",
+                "class": "movie-list-input",
             },
         )
     )
@@ -19,18 +20,20 @@ class MoviesSearchForm(forms.Form):
         required=False,
         label='Жанр',
         empty_label='Оберіть жанр',
+        widget=forms.Select(
+            attrs={
+                "class": "movie-list-margin",
+            }
+        )
     )
     is_active = forms.BooleanField(
         required=False,
         initial=True,
         label='В театрі:',
+        widget=forms.CheckboxInput(
+            attrs={
+                "class": "movie-list-margin",
+            }
+        )
     )
 
-
-class TicketForm(forms.ModelForm):
-    class Meta:
-        model = Ticket
-        fields = ['movie_session', 'row', 'seat',]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

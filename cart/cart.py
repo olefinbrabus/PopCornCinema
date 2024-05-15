@@ -1,3 +1,4 @@
+from cinema.models import MovieSession
 from .models import TicketTemp
 
 
@@ -21,13 +22,14 @@ class Cart:
             self.session.modified = True
 
     def _is_contains_in_cart(self, ticket: TicketTemp) -> bool:
-        other_tickets = self.get_tickets()
+        other_tickets = self.get_tickets
 
         for other_ticket in other_tickets:
             if ticket == other_ticket:
                 return True
         return False
 
+    @property
     def get_tickets(self) -> list[TicketTemp]:
         return [TicketTemp(temp_id=temp_id,
                            movie_session_id=int(value["movie_session_id"]),
@@ -45,6 +47,38 @@ class Cart:
         print(ticket_id)
 
         self.session.modified = True
+
+    @property
+    def get_summary_tickets_price(self) -> float:
+        cart_tickets = self.get_tickets
+
+        sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in cart_tickets}
+        sessions = MovieSession.objects.filter(id__in=sessions_id)
+
+        return sum([
+            session.price for session in sessions
+            for ticket in cart_tickets
+            if session.id == ticket.movie_session_id
+        ])
+
+    @property
+    def get_sessions_in_tickets(self):
+        sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in self.get_tickets}
+        return MovieSession.objects.filter(id__in=sessions_id)
+
+    @property
+    def get_tickets_price_by_sessions(self):
+        tickets = self.get_tickets
+        sessions = self.get_sessions_in_tickets
+        price_sessions: list[str] = [""] * len(sessions)
+        for i, session in enumerate(sessions):
+            price = 0
+            for ticket in tickets:
+                if session.id == ticket.movie_session_id:
+                    price += session.price
+
+            price_sessions[i] = f"{session.movie.title}, {session.string_film_time}\n{price}"
+        return price_sessions
 
     def __len__(self) -> int:
         return len(self.cart)

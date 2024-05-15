@@ -99,6 +99,7 @@ class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
+    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
         return str(self.created_at)

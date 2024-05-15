@@ -25,11 +25,13 @@
       </div>
       <div class="col-5" id="cart-confirm">
         <div class="cart-buy">
-          <h2>Ціна до сплати: {{ tickets_summary_price }}</h2>
+          <h2>Ціна до сплати: {{ cart.get_summary_tickets_price }}</h2>
           {% for price in tickets_price_sessions %}
             <p>{{ price }}</p>
           {% endfor %}
-          <button type="submit" class="cart-buy btn btn-primary" value="">Купити квитки</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#approvemodal">
+            Купити квитки
+          </button>
         </div>
       </div>
     </div>
@@ -65,3 +67,33 @@
     <h2 class="empty-cart">У вас немає білетів у кошику</h2>
   {% endif %}
 {% endblock %}
+
+{% if cart_tickets %}
+  {% block modal %}
+    <div class="modal fade" id="approvemodal" tabindex="-1" role="dialog" aria-labelledby="approvemodal"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="approvemodal">Підтвердження оплати</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Ви впевнені, Що хочете зробити замовлення квитків на:
+              {% for session in sessions %}
+                <br>{{ session.movie.title }}
+              {% endfor %}
+            ?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+            <button type="button" class="btn btn-primary">Так</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+{% endif %}

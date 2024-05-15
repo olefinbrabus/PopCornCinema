@@ -22,7 +22,7 @@ class CartView(generic.TemplateView):
 
         cart = Cart(self.request)
 
-        cart_tickets = cart.get_tickets()
+        cart_tickets = cart.get_tickets
         context["cart_tickets"] = cart_tickets
 
         sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in cart_tickets}
@@ -30,30 +30,10 @@ class CartView(generic.TemplateView):
 
         context["sessions"] = sessions
 
-        context["tickets_summary_price"] = get_summary_tickets_price(sessions, cart_tickets)
-        context["tickets_price_sessions"] = get_tickets_price_by_sessions(sessions, cart_tickets)
+        context["tickets_summary_price"] = cart.get_summary_tickets_price
+        context["tickets_price_sessions"] = cart.get_tickets_price_by_sessions
 
         return context
-
-
-def get_summary_tickets_price(sessions: list[MovieSession], tickets: list[TicketTemp]) -> float:
-    return sum([
-        session.price for session in sessions
-        for ticket in tickets
-        if session.id == ticket.movie_session_id
-    ])
-
-
-def get_tickets_price_by_sessions(sessions: list[MovieSession], tickets: list[TicketTemp]):
-    price_sessions: list[str] = [""] * len(sessions)
-    for i, session in enumerate(sessions):
-        price = 0
-        for ticket in tickets:
-            if session.id == ticket.movie_session_id:
-                price += session.price
-
-        price_sessions[i] = f"{session.movie.title}, {session.string_film_time}\n{price}"
-    return price_sessions
 
 
 def cart_add(request) -> Union[HttpResponse, JsonResponse, None]:
