@@ -89,10 +89,8 @@
           </div>
           <div class="modal-footer">
             {% if user.is_authenticated %}
-            	
-            
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Змінити квитки</button>
-            <button type="button" class="btn btn-primary">Так</button>
+            <a href="{% url "payment-home" %}" type="button" class="btn btn-primary">Так</a>
             {% else %}
               <p>Для підтвердження ви повинні зареєструватися або увійти в особистий кабінет</p>
             {% endif %} 
