@@ -1,7 +1,7 @@
 import uuid
+
 from typing import Union
 
-from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.http import JsonResponse, HttpResponse
@@ -29,6 +29,7 @@ class CartView(generic.TemplateView):
         sessions = MovieSession.objects.filter(id__in=sessions_id)
 
         context["sessions"] = sessions
+        context["sessions_titles"] = {session.movie.title for session in sessions}
 
         context["tickets_summary_price"] = cart.get_summary_tickets_price
         context["tickets_price_sessions"] = cart.get_tickets_price_by_sessions

@@ -7,6 +7,8 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils.translation import gettext as _
 
+from cinema.models import time_to_string
+
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -49,7 +51,7 @@ class User(AbstractUser):
     birthday = models.DateField(default=date.today().replace(month=1, day=1))
     number = models.IntegerField(default=0)
     promotional_money = models.DecimalField(default=0, max_digits=6, decimal_places=2)
-    card = models.IntegerField(default=0)
+    card = models.IntegerField(default=1111_1111_1111_1111)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -59,3 +61,7 @@ class User(AbstractUser):
     @property
     def get_birthday_to_date(self) -> str:
         return self.birthday.strftime("%Y-%m-%d")
+
+    @property
+    def time_to_string(self) -> str:
+        return time_to_string(self.birthday, hours=False)

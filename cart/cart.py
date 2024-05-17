@@ -55,11 +55,13 @@ class Cart:
         sessions_id: set = {cart_ticket.movie_session_id for cart_ticket in cart_tickets}
         sessions = MovieSession.objects.filter(id__in=sessions_id)
 
-        return sum([
+        sum_price = float(sum([
             session.price for session in sessions
             for ticket in cart_tickets
             if session.id == ticket.movie_session_id
-        ])
+        ]))
+
+        return int(sum_price) if sum_price.is_integer() else sum_price
 
     @property
     def get_sessions_in_tickets(self):

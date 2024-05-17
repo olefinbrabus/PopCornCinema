@@ -64,7 +64,7 @@
     </script>
 
   {% else %}
-    <h2 class="empty-cart">У вас немає білетів у кошику</h2>
+    <h2 class="big-buttons-manage">У вас немає білетів у кошику</h2>
   {% endif %}
 {% endblock %}
 
@@ -82,15 +82,20 @@
           </div>
           <div class="modal-body">
             <p>Ви впевнені, Що хочете зробити замовлення квитків на:
-              {% for session in sessions %}
-                <br>{{ session.movie.title }}
-              {% endfor %}
-            ?
+              {% for session in sessions_titles %}
+                <br>{{ session }}
+              {% endfor %}?
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+            {% if user.is_authenticated %}
+            	
+            
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Змінити квитки</button>
             <button type="button" class="btn btn-primary">Так</button>
+            {% else %}
+              <p>Для підтвердження ви повинні зареєструватися або увійти в особистий кабінет</p>
+            {% endif %} 
           </div>
         </div>
       </div>

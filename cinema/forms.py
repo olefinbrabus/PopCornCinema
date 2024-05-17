@@ -19,7 +19,7 @@ class MoviesSearchForm(forms.Form):
         queryset=Genre.objects.all(),
         required=False,
         label='Жанр',
-        empty_label='Оберіть жанр',
+        empty_label='Немає',
         widget=forms.Select(
             attrs={
                 "class": "movie-list-margin",

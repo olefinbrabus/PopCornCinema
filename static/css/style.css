@@ -423,13 +423,13 @@ footer {
 }
 
 .manage-user ul,
-.manage-user input,
+.manage-user button,
 .manage-user h2 {
     text-align: center;
     align-items: center;
 }
 
-.manage-user input {
+.manage-user button {
     place-content: center;
     margin: auto;
 
@@ -460,6 +460,18 @@ footer {
     display: flex;
     align-items: center;
     text-align: center;
+}
+
+.user-buttons{
+    margin: 3rem;
+}
+
+.user-account-btn{
+    padding: 2.2rem 2rem;
+    background: var(--text-color);
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: 0.8rem;
 }
 
 .promotional {
@@ -541,7 +553,7 @@ footer {
 
 }
 
-.empty-cart {
+.big-buttons-manage {
     margin: 5rem;
     font-size: 68px;
 }

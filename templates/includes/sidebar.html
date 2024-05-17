@@ -42,7 +42,8 @@
           <span class="nav-link-title">Навігація</span>
         </a>
 
-        <a href="{% url "cart:cart" %}" class="nav-link">
+        <a href="{% url "cart:cart" %}" class="nav-link " style="container: body"
+           data-toggle="tooltip" data-placement="top" title="{{ cart.get_summary_tickets_price }}">
           <i class='bx bxs-cart'></i>
           <div style="display: flex; align-items: center">
             <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
