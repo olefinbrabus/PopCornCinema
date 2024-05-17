@@ -10,7 +10,7 @@
         <div class=" log_margin">
           <form action="{% url "cinema:movies-list" %}" method="get" class="form-inline">
             {{ search_form.title }}
-            <input type="submit" value="Пошук" class="btn-secondary btn">
+            <input type="submit" value="Пошук" class="btn btn-primary">
           </form>
         </div>
       </form>
@@ -33,7 +33,7 @@
           <span class="nav-link-title">Головна</span>
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="{% url "cinema:cinema_hall_list_view" %}" class="nav-link">
           <i class='bx bx-compass'></i>
           <span class="nav-link-title">Кінотеатри</span>
         </a>
@@ -42,7 +42,8 @@
           <span class="nav-link-title">Навігація</span>
         </a>
 
-        <a href="#" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+        <a href="{% url "cart:cart" %}" class="nav-link " style="container: body"
+           data-toggle="tooltip" data-placement="top" title="{{ cart.get_summary_tickets_price }}">
           <i class='bx bxs-cart'></i>
           <div style="display: flex; align-items: center">
             <span class="nav-link-title" style="margin-right: 10px">Кошик</span>

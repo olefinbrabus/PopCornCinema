@@ -17,6 +17,20 @@ class IndexView(generic.ListView):
         return context
 
 
+class CinemaHallListView(generic.ListView):
+    template_name = "cinema/cinema_hall_list_view.html"
+    model = CinemaHall
+
+    def get_context_data(self, **kwargs):
+        context = super(CinemaHallListView, self).get_context_data(**kwargs)
+
+        halls = CinemaHall.objects.all().values()
+        halls = set(map(lambda x: x["name"].split(",")[0], halls))
+
+        context["halls"] = halls
+        return context
+
+
 class MoviesListView(generic.ListView):
     template_name = "cinema/movie_list.html"
     model = Movie

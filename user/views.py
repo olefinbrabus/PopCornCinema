@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from cinema.models import Ticket
-from user.forms import UserForm
+from user.forms import UserCreateForm, UserChangedForm, UserPasswordChangedForm
 from user.models import User
 
 
@@ -23,16 +23,23 @@ class UserDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class UserCreateView(generic.CreateView):
-    form_class = UserForm
+    form_class = UserCreateForm
     success_url = "/user/login/"
     template_name = "user/register.html"
 
 
 class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = User
-    fields = ['first_name', 'last_name', "birthday", "number", 'email', 'card']
-    success_url = ".."
+    form_class = UserChangedForm
+    success_url = "/"
     template_name = "user/update.html"
+
+
+class UserUpdatePasswordView(LoginRequiredMixin, generic.UpdateView):
+    model = User
+    form_class = UserPasswordChangedForm
+    success_url = "/"
+    template_name = "user/update_password.html"
 
 
 class UserDeleteView(LoginRequiredMixin, generic.DeleteView):

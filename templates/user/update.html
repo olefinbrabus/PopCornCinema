@@ -1,13 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <form class="manage-user" action="" method="post" novalidate>
+    {% csrf_token %}
     <h2 class="contact-us">Змінити аккаунт:</h2>
     <br>
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <input type="submit" value="Submit">
-
-    </form>
+    <label for="first_name">
+      Імʼя
+      {{ form.first_name }}
+    </label>
+    <label for="last_name">
+      Фамілія
+      {{ form.last_name }}
+    </label>
+    <label for="birthday">
+      День народження
+      <input type="date" id="id_birthday" name="birthday" value="{{ user.get_birthday_to_date }}">
+    </label>
+    <label for="number">
+      Телефоний номер
+      {{ form.number }}
+    </label>
+    <label for="email">
+      Електонна пошта
+      {{ form.email }}
+    </label>
+    <label for="card">
+      Введіть картку:
+      {{ form.card }}
+    </label>
+    <br>
+    <button class="btn btn-primary btn-lg" type="submit">Оновити данні</button>
+  </form>
 {% endblock %}

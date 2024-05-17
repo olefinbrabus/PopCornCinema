@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<p>Ви вийшли з акаунту.</p>
-    
+  <div id="logged-out">
+    <p>Ви вийшли з акаунту.</p>
+
     <a href="{% url "login" %}"> Увійти знову в аккаунт</a>
+  </div>
 {% endblock %}

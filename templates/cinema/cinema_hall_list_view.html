@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Заказ успішно створенний</p>
+  {% for hall in halls %}
+  	{{ hall }}
+  {% endfor %}
+  
 {% endblock %}

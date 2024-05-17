@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-# from dotenv import load_dotenv
-# load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('KEY')
 SECRET_KEY = "django-insecure-wpxjt!84-9h^s+i4g1p^i*@%sp#5$l7$*noz)bu9b=+=--_^^&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -48,6 +44,7 @@ INSTALLED_APPS = [
     "cinema.apps.CinemaConfig",
     "cart.apps.CartConfig",
     "user.apps.UserConfig",
+    "payment.apps.PaymentConfig",
     "debug_toolbar",
 ]
 
