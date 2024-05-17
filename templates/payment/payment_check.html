@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <h5 class="card-header">Ваш заказ:</h5>
+    <div class="card-body">
+      <h5 class="card-title">Ціна: {{ cart.get_summary_tickets_price }} </h5>
+      <p class="card-text">Картка: {{ user.card }}</p>
+      <p class="card-text">Після підтвердження оплати ви зможете завантажити білети у pdf форматі для показу в
+        кінотеатрі</p>
+      <div class="manage-user">
+        <form method="post" action="{% url "payment-process" %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-lg">Підтвердити</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
