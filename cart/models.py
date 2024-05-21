@@ -1,7 +1,5 @@
 from django.db import models
 
-from cinema.models import MovieSession
-
 
 class TicketTemp(models.Model):
     temp_id = models.CharField(max_length=32, unique=True)

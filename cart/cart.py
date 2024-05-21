@@ -31,22 +31,22 @@ class Cart:
 
     @property
     def get_tickets(self) -> list[TicketTemp]:
-        return [TicketTemp(temp_id=temp_id,
-                           movie_session_id=int(value["movie_session_id"]),
-                           row=int(value["row"]),
-                           seat=int(value["seat"]))
-                for temp_id, value in self.cart.items()
-                ]
+        return [
+            TicketTemp(temp_id=temp_id,
+                       movie_session_id=int(value["movie_session_id"]),
+                       row=int(value["row"]),
+                       seat=int(value["seat"]))
+            for temp_id, value in self.cart.items()
+        ]
 
     def delete(self, ticket_id: str) -> None:
         if ticket_id in self.cart:
             del self.cart[ticket_id]
-            print("true")
-        else:
-            print("false")
-        print(ticket_id)
 
         self.session.modified = True
+
+    def delete_all(self) -> None:
+        self.cart.clear()
 
     @property
     def get_summary_tickets_price(self) -> float:

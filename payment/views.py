@@ -1,10 +1,10 @@
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.views import generic
 
 from cart.cart import Cart
-from cart.models import TicketTemp
-from cinema.models import Ticket, Order
+from payment.create import create_order, create_tickets
 from payment.validate import validate_tickets_in_cart
 
 
@@ -26,10 +26,25 @@ def process_order(request):
             raise PermissionDenied("Ви не увійшли в акаунт")
 
         cart = Cart(request)
-        if validate_tickets_in_cart(cart.get_tickets):
-            print("valid")
+        cart_tickets = cart.get_tickets
+        if validate_tickets_in_cart(cart_tickets):
+            order = create_order(request, cart)
+            create_tickets(cart, order)
+        else:
+            raise TypeError("Сталася помилка при створенні заказу")
 
     except PermissionDenied as e:
-        raise
+        messages.success(request, f"{e}")
+    except TypeError as e:
+        messages.error(request, f"{e}")
+    except ValidationError as e:
+        messages.error(request, f"{e}")
+    except Exception as e:
+        messages.error(request, f"{e} Пришліть нам на пошту помилку, ми ії вирішимо!")
+
+    else:
+        messages.success(request, "Заказ успішно створений!")
 
     return redirect("index")
+
+
