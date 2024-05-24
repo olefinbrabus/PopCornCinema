@@ -9,23 +9,21 @@
   <ul class="seat-list">
     {{ available_seats }}
 
-    {% for row in rows_range %}
+    {% for r_number, row in hall_to_html %}
 
-      <li class="seat-row">Ряд {{ row }}:
+      <li class="seat-row">Ряд {{ r_number }}:
 
-        {% for seat in seats_range %}
-          {% for ticket in tickets %}
-            {% if ticket.seat == seat and ticket.row == row %}
+        {% for s_number, seat in row %}
+            {% if seat %}
               <div class="seat-button btn nav-active ">
                 Місто зайнято
               </div>
             {% else %}
               <button type="button" class="seat-button btn nav-active"
-                      data-id="{{ movie_session.id }}" data-row="{{ row }}" data-seat="{{ seat }}" id="add-cart">
-                Місто: {{ seat }}
+                      data-id="{{ movie_session.id }}" data-row="{{ r_number }}" data-seat="{{ s_number }}" id="add-cart">
+                Місто: {{ s_number }}
               </button>
             {% endif %}
-          {% endfor %}
         {% endfor %}
       </li>
     {% endfor %}
@@ -50,8 +48,6 @@
               },
               
               success: function (json) {
-                  {#document.getElementById("cart-quantity").#}
-                  {#    textContent = json.qty#}
                   location.reload()
               },
               

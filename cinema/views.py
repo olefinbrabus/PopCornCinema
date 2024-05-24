@@ -34,7 +34,7 @@ class CinemaHallListView(generic.ListView):
 class MoviesListView(generic.ListView):
     template_name = "cinema/movie_list.html"
     model = Movie
-    paginate_by = 12
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super(MoviesListView, self).get_context_data(**kwargs)
@@ -50,9 +50,6 @@ class MoviesListView(generic.ListView):
 
         conditions = {}
 
-        if title:
-            conditions['title'] = title
-
         if genre_id:
             conditions['genres'] = genre_id
 
@@ -64,6 +61,8 @@ class MoviesListView(generic.ListView):
             'is_active': is_active,
         }
 
+        if title:
+            return queryset.filter(title__icontains=title, **conditions)
         return queryset.filter(**conditions)
 
 
@@ -89,19 +88,19 @@ class MovieSessionDetailView(generic.DetailView):
         movie_session = self.get_object()
 
         cinema_hall = movie_session.cinema_hall
+
         rows_range = range(1, cinema_hall.rows + 1)
         seats_range = range(1, cinema_hall.seats_in_row + 1)
 
-        tickets = movie_session.tickets.all()
-        if len(tickets) == 0:
-            tickets = [0]
+        hall_to_html = [
+            (r_number + 1,
+             [(s_number + 1, bool(Ticket.objects
+                                  .filter(row=row, seat=seat, movie_session=movie_session).first()))
+              for s_number, seat in enumerate(seats_range)])
+            for r_number, row in enumerate(rows_range)
+        ]
 
-        occupied_seats = Ticket.objects.filter(movie_session=movie_session).values_list('row', 'seat')
-
+        context["hall_to_html"] = hall_to_html
         context['movie_session'] = movie_session
-        context['tickets'] = tickets
-        context['rows_range'] = rows_range
-        context['seats_range'] = seats_range
-        context['occupied_seats'] = occupied_seats
 
         return context

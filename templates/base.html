@@ -27,7 +27,6 @@
 </head>
 
 <body>
-
 <section class="sidebar">
   {% block sidebar %}
     {% include "includes/sidebar.html" %}
@@ -37,6 +36,17 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
           integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
   <section class="container">
     {% block content %}
@@ -68,8 +78,8 @@
 
 <script>
     $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 
 </body>

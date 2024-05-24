@@ -65,7 +65,3 @@ def cart_delete(request):
 
         response = JsonResponse({"ticket": ticket_id})
         return response
-
-
-def cart_update(request):
-    pass
