@@ -34,7 +34,7 @@ class CinemaHallListView(generic.ListView):
 class MoviesListView(generic.ListView):
     template_name = "cinema/movie_list.html"
     model = Movie
-    paginate_by = 4
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super(MoviesListView, self).get_context_data(**kwargs)
