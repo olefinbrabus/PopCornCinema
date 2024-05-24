@@ -31,39 +31,29 @@
     </div>
   </div>
 
-  <div class="user-buttons">
-    <a href="{% url "user:update" pk=user.id %}" class="user-account-btn"
+  <div class="row">
+    <a href="{% url "user:update" pk=user.id %}" class="user-account-btn col"
        data-toggle="tooltip" data-placement="top" title="Змінити данні">
       <i class='bx bxs-pencil bx-md'></i>
     </a>
-    
-    <a href="{% url "user:update-password" pk=user.id %}" class="user-account-btn"
+
+    <a href="{% url "user:update-password" pk=user.id %}" class="user-account-btn col"
        data-toggle="tooltip" data-placement="top" title="Змінити пароль та пошту">
-      <i class='bx bx-lock-alt bx-md' ></i>
+      <i class='bx bx-lock-alt bx-md'></i>
     </a>
 
-    <a href="{% url "user:delete" pk=user.id %}" class="user-account-btn"
+    <a href="{% url "user:delete" pk=user.id %}" class="user-account-btn col"
        data-toggle="tooltip" data-placement="top" title="Видалити акаунт">
       <i class='bx bxs-message-alt-x bx-md'></i>
     </a>
+
+    <a href="{% url "user:order" pk=user.id %}" class="user-account-btn col"
+       data-toggle="tooltip" data-placement="top" title="Подивитися закази">
+      <i class='bx bxs-message-alt-x bx-md'></i>
+    </a>
+
   </div>
 
-
-  <div class="user-info nav-tabs">
-    {% if tickets %}
-      <h2>Білети: </h2>
-      <ul>
-        {% for ticket in tickets %}
-          <li class="ticket">
-            {{ ticket.movie_session.movie.title }} -
-            ряд: {{ ticket.row }}, місце: {{ ticket.seat }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="description">Ви не маєте поки що білетів.</p>
-    {% endif %}
-  </div>
   <div class="user-info promotional">
     <h2>Бонуси: </h2>
     <h3 class="description">{{ user.promotional_money }}</h3>

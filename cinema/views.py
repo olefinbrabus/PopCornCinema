@@ -34,7 +34,7 @@ class CinemaHallListView(generic.ListView):
 class MoviesListView(generic.ListView):
     template_name = "cinema/movie_list.html"
     model = Movie
-    paginate_by = 12
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super(MoviesListView, self).get_context_data(**kwargs)
@@ -50,9 +50,6 @@ class MoviesListView(generic.ListView):
 
         conditions = {}
 
-        if title:
-            conditions['title'] = title
-
         if genre_id:
             conditions['genres'] = genre_id
 
@@ -64,6 +61,8 @@ class MoviesListView(generic.ListView):
             'is_active': is_active,
         }
 
+        if title:
+            return queryset.filter(title__icontains=title, **conditions)
         return queryset.filter(**conditions)
 
 

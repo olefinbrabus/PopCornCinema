@@ -16,12 +16,12 @@ class Cart:
 
     def add(self, ticket: TicketTemp) -> None:
         ticket_id = str(ticket.temp_id)
-        if not self._is_contains_in_cart(ticket):
+        if not self._is_tickets_contains_in_cart(ticket):
             self.cart[ticket_id] = {"movie_session_id": str(ticket.movie_session_id),
                                     "row": str(ticket.row), "seat": str(ticket.seat)}
             self.session.modified = True
 
-    def _is_contains_in_cart(self, ticket: TicketTemp) -> bool:
+    def _is_tickets_contains_in_cart(self, ticket: TicketTemp) -> bool:
         other_tickets = self.get_tickets
 
         for other_ticket in other_tickets:

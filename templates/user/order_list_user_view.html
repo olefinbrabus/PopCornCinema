@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if order_list %}
+      {% for order in order_list %}
+        <div class="row ticket-row">
+        
+          <div class="col-sm">{{ order.string_created_time }}</div>
+          
+          <div class="col-sm">{{ order.amount }}</div>
+
+          <a href="{% url "user:pdf" order.id %}" class="col-sm">
+            <i class='bx bxs-file-pdf bx-lg'></i>
+          </a>
+        
+        </div>
+      {% endfor %}
+    
+  {% else %}
+    <p class="description">Ви не маєте поки що білетів.</p>
+  {% endif %}
+
+  {% if is_paginated %}
+    <ul class="pagination nav">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a href="?page={{ page_obj.previous_page_number }}" class="page-link">
+            Попередня Сторінка
+          </a>
+        </li>
+      {% endif %}
+      <li class="page-item active"><span
+        class="page-link">{{ page_obj.number }} of {{ paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+            Наступна сторінка
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endblock %}

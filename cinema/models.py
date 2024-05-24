@@ -113,6 +113,10 @@ class Order(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+    @property
+    def string_created_time(self) -> str:
+        return time_to_string(self.created_at)
+
 
 class Ticket(models.Model):
     movie_session = models.ForeignKey(
