@@ -25,33 +25,34 @@
         <a href="{% url "user:register" %}" class="log_margin nav-text">Зареєструватися</a>
 
       {% endif %}
-    </div>
-    <div class="nav-buttons">
-      <div class="navbar">
-        <a href="{% url "index" %}" class="nav-link">
-          <i class='bx bx-home-alt'></i>
-          <span class="nav-link-title">Головна</span>
-        </a>
-
-        <a href="{% url "cinema:cinema_hall_list_view" %}" class="nav-link">
-          <i class='bx bx-compass'></i>
-          <span class="nav-link-title">Кінотеатри</span>
-        </a>
-        <a href="{% url "cinema:movies-list" %}" class="nav-link">
-          <i class='bx bx-camera-movie'></i>
-          <span class="nav-link-title">Навігація</span>
-        </a>
-
-        <a href="{% url "cart:cart" %}" class="nav-link " style="container: body"
-           data-toggle="tooltip" data-placement="top" title="{{ cart.get_summary_tickets_price }}">
-          <i class='bx bxs-cart'></i>
-          <div style="display: flex; align-items: center">
-            <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
-            <span class="nav-link-title " id="cart-quantity">{{ cart|length }}</span>
-          </div>
-        </a>
-      </div>
 
     </div>
   </div>
+  <div class="nav-buttons">
+    <div class="navbar  row">
+      <a href="{% url "index" %}" class="nav-link col">
+        <i class='bx bx-home-alt'></i>
+        <span class="nav-link-title">Головна</span>
+      </a>
+
+      <a href="{% url "cinema:cinema_hall_list_view" %}" class="nav-link col">
+        <i class='bx bx-compass'></i>
+        <span class="nav-link-title">Кінотеатри</span>
+      </a>
+      <a href="{% url "cinema:movies-list" %}" class="nav-link col">
+        <i class='bx bx-camera-movie'></i>
+        <span class="nav-link-title">Навігація</span>
+      </a>
+
+      <a href="{% url "cart:cart" %}" class="nav-link col" style="container: body"
+         data-toggle="tooltip" data-placement="top" title="Ціна: {{ cart.get_summary_tickets_price }}">
+        <i class='bx bxs-cart'></i>
+        <div style="display: flex; align-items: center">
+          <span class="nav-link-title" style="margin-right: 10px">Кошик</span>
+          <span class="nav-link-title " id="cart-quantity">{{ cart|length }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
 </header>

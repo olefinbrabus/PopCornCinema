@@ -17,24 +17,25 @@ class IndexView(generic.ListView):
         return context
 
 
-class CinemaHallListView(generic.ListView):
-    template_name = "cinema/cinema_hall_list_view.html"
-    model = CinemaHall
+class CinemaListView(generic.ListView):
+    template_name = "cinema/cinema_list_view.html"
+    model = Cinema
 
-    def get_context_data(self, **kwargs):
-        context = super(CinemaHallListView, self).get_context_data(**kwargs)
-
-        halls = CinemaHall.objects.all().values()
-        halls = set(map(lambda x: x["name"].split(",")[0], halls))
-
-        context["halls"] = halls
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(CinemaListView, self).get_context_data(**kwargs)
+    #
+    #     halls = CinemaHall.objects.all().values()
+    #     halls = set(map(lambda x: x["name"].split(",")[0], halls))
+    #     halls = [(i + 1, hall) for i, hall in enumerate(halls)]
+    #
+    #     context["halls"] = halls
+    #     return context
 
 
 class MoviesListView(generic.ListView):
     template_name = "cinema/movie_list.html"
     model = Movie
-    paginate_by = 1
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super(MoviesListView, self).get_context_data(**kwargs)
@@ -77,9 +78,6 @@ class CinemaView(generic.ListView):
 
 
 class MovieSessionDetailView(generic.DetailView):
-    # TODO: створити показ обраних квитків
-    # TODO: створити відміну квитків при натисненні на обрані квитки
-    # TODO: створити відображення екрану щоб показати точніше як росташованні ряди та місця
     template_name = 'cinema/movie_session_detail.html'
     model = MovieSession
 

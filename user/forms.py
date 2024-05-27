@@ -1,5 +1,5 @@
 from user.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 
 
 class UserCreateForm(UserCreationForm):
@@ -14,7 +14,7 @@ class UserChangedForm(UserChangeForm):
         fields = ('first_name', 'last_name', "birthday", "number", 'email', "card",)
 
 
-class UserPasswordChangedForm(UserChangeForm):
+class UserPasswordChangedForm(SetPasswordForm):
     class Meta:
         model = User
-        fields = "password",
+        fields = ("new_password1", "new_password2")

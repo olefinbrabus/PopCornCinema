@@ -9,10 +9,23 @@ from django.conf import settings
 from django.utils.text import slugify
 
 
+class Cinema(models.Model):
+    name = models.CharField(max_length=255)
+    hall_capacity = models.IntegerField()
+    description = models.CharField(
+        max_length=511,
+        default="Новий кінотеатр"
+    )
+
+    def __str__(self):
+        return f"Кінотеатр знаходиться: {self.name}, Кількість залів: {self.hall_capacity}"
+
+
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
+    hall = models.ForeignKey(Cinema, on_delete=models.CASCADE)
 
     @property
     def capacity(self) -> int:
@@ -20,6 +33,24 @@ class CinemaHall(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None
+    ):
+        print(len(self.hall.cinemahall_set.all()))
+        print(self.hall.hall_capacity)
+        if len(self.hall.cinemahall_set.all()) >= self.hall.hall_capacity:
+            raise ValidationError("Cinema can't add one more Cinema Hall.")
+        return super(CinemaHall, self).save(
+            force_insert,
+            force_update,
+            using,
+            update_fields
+        )
 
 
 class Genre(models.Model):
@@ -155,11 +186,11 @@ class Ticket(models.Model):
         )
 
     def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None,
     ):
         self.full_clean()
         return super(Ticket, self).save(

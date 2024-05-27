@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for cinema in cinema_list %}
+    <div class="container ">
+      <div class="card">
+        <div class="card-header">
+          {{ cinema.name }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Кількість кінозалів: {{ cinema.hall_capacity }}</h5>
+          <p class="card-text">{{ cinema.description }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
