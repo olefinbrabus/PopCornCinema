@@ -11,8 +11,9 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        main_movie = Movie.objects.get(pk=4)
-        context['main_movie'] = main_movie
+        if Movie.objects.exists():
+            main_movie = Movie.objects.get(pk=4)
+            context['main_movie'] = main_movie
 
         return context
 
@@ -20,16 +21,6 @@ class IndexView(generic.ListView):
 class CinemaListView(generic.ListView):
     template_name = "cinema/cinema_list_view.html"
     model = Cinema
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(CinemaListView, self).get_context_data(**kwargs)
-    #
-    #     halls = CinemaHall.objects.all().values()
-    #     halls = set(map(lambda x: x["name"].split(",")[0], halls))
-    #     halls = [(i + 1, hall) for i, hall in enumerate(halls)]
-    #
-    #     context["halls"] = halls
-    #     return context
 
 
 class MoviesListView(generic.ListView):

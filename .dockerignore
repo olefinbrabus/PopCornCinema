@@ -1,0 +1,4 @@
+.vscode
+.idea
+.git
+db.sqlite3

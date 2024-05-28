@@ -14,6 +14,8 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
+env_val = dotenv_values()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,14 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-key = dotenv_values()["KEY"]
-SECRET_KEY = key if key else "eo_7jis7)5t1v(@)hge9k7+0^_)%49%2b%4+gpq!7gv53)18%6"
+SECRET_KEY = env_val["KEY"] or "eo_7jis7)5t1v(@)hge9k7+0^_)%49%2b%4+gpq!7gv53)18%6"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "127.0.0.1",  # "localhost"
 ]
 
 INTERNAL_IPS = [
@@ -90,8 +91,12 @@ WSGI_APPLICATION = 'PopCornCinema.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "postgres",
+        'USER': env_val["POSTGRES_USER"] or "User",
+        'PASSWORD': env_val["POSTGRES_PASSWORD"] or "Password",
+        'HOST': "postgres",  # if local change to localhost
+        'PORT': "5432"
     }
 }
 

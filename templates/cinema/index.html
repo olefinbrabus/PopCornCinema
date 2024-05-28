@@ -1,53 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="home" id="home">
-        <img src="{{ main_movie.image.url }}" alt="" class="home-img">
-        <div class="home-text">
-            <h1 class="home-title">{{ main_movie.title }}</h1>
-            <p>Фільм на {{ main_movie.duration }} години</p>
-            <a href="{% url "cinema:movies-detail" main_movie.id %}" class="watch-bth">
-                <i class='bx bx-chevron-right'></i>
-                <span>Подивитись</span>
-            </a>
+{% if main_movie %}
+  <section class="home" id="home">
+    
+      <img src="{{ main_movie.image.url }}" alt="" class="home-img">
+    
+    <div class="home-text">
+      <h1 class="home-title">{{ main_movie.title }}</h1>
+      <p>Фільм на {{ main_movie.duration }} години</p>
+      <a href="{% url "cinema:movies-detail" main_movie.id %}" class="watch-bth">
+        <i class='bx bx-chevron-right'></i>
+        <span>Подивитись</span>
+      </a>
 
-        </div>
-        <h6 class="description">{{ main_movie.description }}</h6>
-    </section>
-    {% if movie_list %}
-        <div class="swiper-btn">
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+    </div>
+    <h6 class="description">{{ main_movie.description }}</h6>
+  </section>
+  {% if movie_list %}
+    <div class="swiper-btn">
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
 
-        </div>
+    </div>
 
-        <div class="popular-content swiper">
-            <div class="swiper-wrapper">
-                {% for movie in movie_list %}
+    <div class="popular-content swiper">
+      <div class="swiper-wrapper">
+        {% for movie in movie_list %}
 
-                    <!-- Movies Box-->
-                    <div class="swiper-slide">
-                        <div class="movie-box">
-                            <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="movie-box-img">
-                            <div class="box-text">
-                                <h2 class="movie-title">{{ movie.title }}</h2>
-                                {% for genre in movie.genres.all %}
-                                    <span class="movie-type">{{ genre }}</span>
-                                {% endfor %}
-                                <a href="{% url "cinema:movies-detail" movie.id %}" class="watch-bth play-btn">
-                                    <i class='bx bx-right-arrow'></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                  
-
+          <!-- Movies Box-->
+          <div class="swiper-slide">
+            <div class="movie-box">
+              <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="movie-box-img">
+              <div class="box-text">
+                <h2 class="movie-title">{{ movie.title }}</h2>
+                {% for genre in movie.genres.all %}
+                  <span class="movie-type">{{ genre }}</span>
                 {% endfor %}
+                <a href="{% url "cinema:movies-detail" movie.id %}" class="watch-bth play-btn">
+                  <i class='bx bx-right-arrow'></i>
+                </a>
+              </div>
             </div>
-        </div>
-    {% else %}
-        <h2> На жаль, зараз немає фільмів у прокаті</h2>
-    {% endif %}
+          </div>
+
+
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <h2> На жаль, зараз немає фільмів у прокаті</h2>
+  {% endif %}
+{% endif %}
 
 
 {% endblock %}
