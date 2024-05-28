@@ -37,7 +37,7 @@
       <i class='bx bxs-pencil bx-md'></i>
     </a>
 
-    <a href="{% url "user:update-password" pk=user.id %}" class="user-account-btn col"
+    <a href="{% url "user:update-password"%}" class="user-account-btn col"
        data-toggle="tooltip" data-placement="top" title="Змінити пароль та пошту">
       <i class='bx bx-lock-alt bx-md'></i>
     </a>
@@ -49,7 +49,7 @@
 
     <a href="{% url "user:order" pk=user.id %}" class="user-account-btn col"
        data-toggle="tooltip" data-placement="top" title="Подивитися закази">
-      <i class='bx bxs-message-alt-x bx-md'></i>
+      <i class='bx bx-note bx-md'></i>
     </a>
 
   </div>

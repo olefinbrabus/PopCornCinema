@@ -187,7 +187,8 @@ header {
     flex-direction: column;
     align-items: center;
     color: var(--dark-red-color);
-    margin-left: 8rem;
+    padding: 0.2rem 0.2rem;
+    margin: 0 40px;
 }
 
 .nav-link:hover,

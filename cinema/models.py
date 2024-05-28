@@ -9,10 +9,23 @@ from django.conf import settings
 from django.utils.text import slugify
 
 
+class Cinema(models.Model):
+    name = models.CharField(max_length=255)
+    hall_capacity = models.IntegerField()
+    description = models.CharField(
+        max_length=511,
+        default="Новий кінотеатр"
+    )
+
+    def __str__(self):
+        return f"Кінотеатр знаходиться: {self.name}, Кількість залів: {self.hall_capacity}"
+
+
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
+    hall = models.ForeignKey(Cinema, on_delete=models.CASCADE)
 
     @property
     def capacity(self) -> int:
@@ -20,6 +33,24 @@ class CinemaHall(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None
+    ):
+        print(len(self.hall.cinemahall_set.all()))
+        print(self.hall.hall_capacity)
+        if len(self.hall.cinemahall_set.all()) >= self.hall.hall_capacity:
+            raise ValidationError("Cinema can't add one more Cinema Hall.")
+        return super(CinemaHall, self).save(
+            force_insert,
+            force_update,
+            using,
+            update_fields
+        )
 
 
 class Genre(models.Model):
@@ -35,10 +66,6 @@ class Actor(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-
-    @property
-    def full_name(self):
-        return f"{self.first_name} {self.last_name}"
 
 
 def movie_image_file_path(instance, filename):
@@ -84,20 +111,17 @@ def time_to_string(time: Union[datetime, date], hours=True) -> str:
     if time.year != datetime.now().year:
         str_time += time.strftime("Рік: %y, ")
 
-    str_time += time.strftime(" %d ")
+    day = time.strftime("%d ")
+    str_time += day if day[0] != "0" else day[1:]
 
     months = ("січня", "лютого", "березня", "квітня", "травня", "червня",
               "липня", "серпня", "вересня", "жовтня", "листопада", "грудня")
     str_time += months[time.month - 1]
 
     if hours:
-        str_time += time.strftime(" %H:%S")
+        str_time += time.strftime(" %H:%M")
 
     return str_time
-
-
-def __str__(self):
-    return self.movie.title + " " + str(self.show_time)
 
 
 class Order(models.Model):
@@ -106,9 +130,6 @@ class Order(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-    def __str__(self):
-        return str(self.created_at)
 
     class Meta:
         ordering = ["-created_at"]
@@ -165,20 +186,15 @@ class Ticket(models.Model):
         )
 
     def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
+            self,
+            force_insert=False,
+            force_update=False,
+            using=None,
+            update_fields=None,
     ):
         self.full_clean()
         return super(Ticket, self).save(
             force_insert, force_update, using, update_fields
-        )
-
-    def __str__(self):
-        return (
-            f"{str(self.movie_session)} (row: {self.row}, seat: {self.seat})"
         )
 
     class Meta:

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import dotenv_values
+
+env_val = dotenv_values()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,13 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-wpxjt!84-9h^s+i4g1p^i*@%sp#5$l7$*noz)bu9b=+=--_^^&"
+SECRET_KEY = env_val["KEY"] or "eo_7jis7)5t1v(@)hge9k7+0^_)%49%2b%4+gpq!7gv53)18%6"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "127.0.0.1",  # "localhost"
 ]
 
 INTERNAL_IPS = [
@@ -87,8 +91,12 @@ WSGI_APPLICATION = 'PopCornCinema.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "postgres",
+        'USER': env_val["POSTGRES_USER"] or "User",
+        'PASSWORD': env_val["POSTGRES_PASSWORD"] or "Password",
+        'HOST': "postgres",  # if local change to localhost
+        'PORT': "5432"
     }
 }
 
@@ -136,12 +144,21 @@ MEDIA_URL = "/media/"
 
 LOGIN_REDIRECT_URL = "/"
 
-# CSRF_COOKIE_SECURE = False
-# SESSION_COOKIE_SECURE = False
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ""
+
+SECURE_SSL_REDIRECT = False
+
+SESSION_COOKIE_SECURE = False
+
+CSRF_COOKIE_SECURE = False
+
+SECURE_HSTS_SECONDS = 0
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+
+SECURE_HSTS_PRELOAD = False
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

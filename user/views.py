@@ -3,6 +3,11 @@ from os import remove
 
 import qrcode
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.http import FileResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
@@ -10,10 +15,6 @@ from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
-from django.http import FileResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-
 
 from cinema.models import Ticket, Order
 from user.forms import UserCreateForm, UserChangedForm, UserPasswordChangedForm
@@ -21,8 +22,6 @@ from user.models import User
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
-    # TODO: За запитанням користувача Створювати список білетів для сессії у форматі
-    #  PDF з підтримкою QR або Штрих коду щоб користувач зміг показати на касі білети
 
     model = User
     template_name = 'user/account.html'
@@ -52,11 +51,17 @@ class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "user/update.html"
 
 
-class UserUpdatePasswordView(LoginRequiredMixin, generic.UpdateView):
-    model = User
-    form_class = UserPasswordChangedForm
-    success_url = "/"
-    template_name = "user/update_password.html"
+def user_update_password_view(request):
+    user = request.user
+    if user.is_authenticated:
+        if request.method == "POST":
+            pass
+        else:
+            form = UserPasswordChangedForm(user)
+            return render(request, "user/update_password.html", {"form": form})
+    else:
+        messages.success(request, "Ви не зареєстровані")
+        redirect("index")
 
 
 class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -86,16 +91,13 @@ def order_pdf_download_view(request, pk):
         pdfmetrics.registerFont(TTFont('Monaco', 'static/pdf_font/Monaco.ttf'))
 
         for ticket in tickets:
-            # Рисуем красный фон
             c.setFillColor(colors.red)
             c.rect(0, 0, width, height, fill=1)
 
-            # Рисуем белый прямоугольник
             c.setFillColor(colors.white)
             margin = 0.5 * inch
             c.rect(margin, margin, width - 2 * margin, height - 2 * margin, fill=1)
 
-            # Настраиваем шрифт и размер текста
             c.setFont("Monaco", 14)
             c.setFillColor(colors.black)
 
@@ -118,8 +120,6 @@ def order_pdf_download_view(request, pk):
             c.showPage()
         c.save()
 
-        # FileResponse sets the Content-Disposition header so that browsers
-        # present the option to save the file.
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f"Білети-{order.id}-PopCornCinema.pdf")
 
