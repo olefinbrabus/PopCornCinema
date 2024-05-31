@@ -1,17 +1,18 @@
 # PopCornCinema
 ## http://popcorncinema.website/
 
-## Про додаток
-Сервіс кінотеатру для бронювання, перегляду актуальних новинок у кіно
-за допомогою Django фреймворку 
+## About The App
+Cinema service for booking and watching the latest movies
+using the Django framework 
 
-## Особливості
-- Адмін панель
-- Кошик через сессію користувача без аутентифікації
-- створення заказу
-- завантаження квитків у pdf файл зі штрихкодом
 
-## Технології
+## Features
+- Admin Panel
+- Cart through a user session without authentication
+- creating a ticket reservation
+- downloading tickets to a pdf file with a barcode
+
+## Technologies
 - Python 3.9 
 - Django 4.2.8
 - Bootstrap 
@@ -20,22 +21,22 @@
 - POSTGRESQL
 - Amazon Ec2
 
-## Головна сторінка
+## Home Page
 ![plot](PopCornCinema/demo_img/demo_img1.png)
-## Каталог фільмів
+## Catalog of films
 ![plot](PopCornCinema/demo_img/demo_img2.png)
-## Фільм
+## Films
 ![plot](PopCornCinema/demo_img/demo_img3.png)
-## Вибір квитків
+## Selection of tickets
 ![plot](PopCornCinema/demo_img/demo_img4.png)
-## Кошик
+## Cart
 ![plot](PopCornCinema/demo_img/demo_img5.png)
-## Pdf Файл квитків
+## Pdf file order
 ![plot](PopCornCinema/demo_img/demo_img6.png)
 
 
 
-## Встановлення додатку через Github
+## Installing the application via Github
 ```bash
 git clone  https://github.com/olefinbrabus/PopCornCinema
 cd PopCornCinema
@@ -43,16 +44,16 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-## Налаштування ключей середовища:
-- Перейменуйте ім'я Файлу Sample.env на .env
-- Впишіть значення які вам потрібні в ключах
+## Setting environment keys:
+- Rename the File Sample.env to .env
+- Enter the values you need in the keys
 
-## Запуск додатку через локальний сервер
+## Launching the application through a local server
 ```bash
 python manage.py runserver 127.0.0.1:8000
 ```
 
-## Запуск додатку через Docker
+## Launching an application via Docker
 ```bash
 docker-compose build
 docker-compose up
