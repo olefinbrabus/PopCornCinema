@@ -1,4 +1,5 @@
 # PopCornCinema
+## http://popcorncinema.website/
 
 ## Про додаток
 Сервіс кінотеатру для бронювання, перегляду актуальних новинок у кіно
@@ -6,9 +7,7 @@
 
 ## Особливості
 - Адмін панель
-- Кошик через сессію без аутентифікації
-
-## У процесі
+- Кошик через сессію користувача без аутентифікації
 - створення заказу
 - завантаження квитків у pdf файл зі штрихкодом
 
@@ -18,16 +17,21 @@
 - Bootstrap 
 - Jquery
 - AJAX
-- SQLite3
+- POSTGRESQL
+- Amazon Ec2
 
 ## Головна сторінка
 ![plot](PopCornCinema/demo_img/demo_img1.png)
 ## Каталог фільмів
 ![plot](PopCornCinema/demo_img/demo_img2.png)
-## Вибір квитків
+## Фільм
 ![plot](PopCornCinema/demo_img/demo_img3.png)
-## Кошик
+## Вибір квитків
 ![plot](PopCornCinema/demo_img/demo_img4.png)
+## Кошик
+![plot](PopCornCinema/demo_img/demo_img5.png)
+## Pdf Файл квитків
+![plot](PopCornCinema/demo_img/demo_img6.png)
 
 
 
@@ -37,4 +41,19 @@ git clone  https://github.com/olefinbrabus/PopCornCinema
 cd PopCornCinema
 python -m venv venv
 pip install -r requirements.txt
+```
+
+## Налаштування ключей середовища:
+- Перейменуйте ім'я Файлу Sample.env на .env
+- Впишіть значення які вам потрібні в ключах
+
+## Запуск додатку через локальний сервер
+```bash
+python manage.py runserver 127.0.0.1:8000
+```
+
+## Запуск додатку через Docker
+```bash
+docker-compose build
+docker-compose up
 ```
