@@ -1,5 +1,4 @@
 # PopCornCinema
-## http://popcorncinema.website/
 
 ## About The App
 Cinema service for booking and watching the latest movies
